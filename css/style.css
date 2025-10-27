@@ -1,0 +1,410 @@
+/* =========================================
+   Font Import
+========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Cormorant+Garamond:wght@400;500;600&display=swap');
+
+/* =========================================
+   Base
+========================================= */
+body {
+  font-family: "Noto Serif JP", "Cormorant Garamond", serif;
+  background-color: #fff;
+  color: #111;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* 横スクロール防止 */
+}
+
+/* =========================================
+   Header
+========================================= */
+header {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 3rem;
+  position: relative;
+  z-index: 1000;
+}
+
+/* ロゴ */
+header .logo a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+/* ナビ（共通） */
+header nav a {
+  color: #333;
+  text-decoration: none;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 1.3rem;
+  letter-spacing: 0.03em;
+  margin-left: 2.5rem;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+/* 下線アニメーション */
+header nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #333;
+  transition: width 0.3s ease;
+}
+header nav a:hover::after {
+  width: 100%;
+}
+
+/* =========================================
+   Main Visual
+========================================= */
+.main-visual {
+  position: relative;
+  width: 90%;
+  max-width: 1200px;
+  margin: 6rem auto 3rem auto;
+  border-radius: 0.6rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+}
+
+.main-visual .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.main-visual .slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* 横写真：デフォルトで表示 */
+.slide.horizontal {
+  display: block;
+}
+
+/* 縦写真：デフォルト非表示 */
+.slide.vertical {
+  display: none;
+}
+
+/* --- スマホでは縦写真のみ有効 --- */
+@media (max-width: 768px) {
+  .slide.horizontal {
+    display: none;
+    margin: 0.5rem auto; /* ← 上下の空白を控えめに（3rem → 1.5rem） */
+    height: auto;
+  }
+
+  .slide.vertical {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100vh;
+    width: auto;
+    max-width: 120%;
+    transform: translate(-50%, -50%);
+    object-fit: contain;
+    border-radius: 0.5rem;
+  }
+
+  .main-visual {
+    aspect-ratio: auto;
+    margin: 0 auto;
+    width: 80%;
+    height: 70vh;
+    margin: 1.5rem auto;
+    overflow: hidden;
+    position: relative;
+  }
+}
+
+
+
+
+
+/* =========================================
+   Footer
+========================================= */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* =========================================
+   Hamburger Icon
+========================================= */
+.hamburger {
+  position: relative;
+  width: 30px;
+  height: 22px;
+  cursor: pointer;
+  z-index: 2001;
+  transition: all 0.3s ease;
+  display: none; /* PCでは非表示 */
+}
+
+.hamburger span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #333;
+  border-radius: 3px;
+  transition: all 0.4s ease;
+}
+
+.hamburger span:nth-child(1) { top: 0; }
+.hamburger span:nth-child(2) { top: 9px; }
+.hamburger span:nth-child(3) { bottom: 0; }
+
+/* ☰→× */
+.hamburger.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* =========================================
+   Fullscreen Menu (mobile)
+========================================= */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.98);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 2000;
+}
+
+nav.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+nav a {
+  font-family: 'Cormorant Garamond', serif;
+  color: #333;
+  font-size: 2rem;
+  text-decoration: none;
+  margin: 1rem 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+}
+
+nav.active a {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+nav.active a:nth-child(1) { transition-delay: 0.2s; }
+nav.active a:nth-child(2) { transition-delay: 0.3s; }
+nav.active a:nth-child(3) { transition-delay: 0.4s; }
+nav.active a:nth-child(4) { transition-delay: 0.5s; }
+
+/* =========================================
+   Responsive
+========================================= */
+
+/* ▼スマホ・タブレット（1024px以下） */
+@media screen and (max-width: 1024px) {
+  .hamburger {
+    display: block;
+  }
+
+  nav {
+    display: flex;
+  }
+
+  header nav a {
+    margin-left: 0;
+  }
+}
+
+/* ▼PC（1025px以上） */
+@media screen and (min-width: 1025px) {
+  .hamburger {
+    display: none;
+  }
+
+  nav {
+    position: static;
+    width: auto;
+    height: auto;
+    background: none;
+    opacity: 1;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    transition: none;
+  }
+
+  nav a {
+    opacity: 1 !important;
+    transform: none !important;
+    font-size: 1.3rem;
+    margin: 0 1.5rem;
+    transition: color 0.3s ease;
+  }
+
+  nav a:hover {
+    color: #555;
+  }
+}
+
+/*ギャラリーページ*/
+
+/* =========================================
+   Gallery Page
+========================================= */
+.gallery-page {
+  width: 90%;
+  max-width: 1200px;
+  margin: 5rem auto;
+  text-align: center;
+}
+
+.gallery-page h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 2.5rem;
+  color: #333;
+  letter-spacing: 0.05em;
+}
+
+.masonry {
+  column-count: 3;
+  column-gap: 1rem;
+}
+
+.masonry img {
+  width: 100%;
+  display: block;
+  margin-bottom: 1rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.masonry img:hover {
+  transform: scale(1.02);
+  opacity: 0.9;
+}
+
+/* ライトボックス */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 10, 0.9);
+  justify-content: center;
+  align-items: center;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 85%;
+  border-radius: 0.5rem;
+}
+
+.lightbox .close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  font-size: 2.5rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .masonry {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .masonry {
+    column-count: 1;
+  }
+}
+
+
+
+/* ===============================
+   ローディングアニメーション
+=============================== */
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  transition: transform 1s ease, opacity 0.6s ease;
+}
+
+/* 上にスライドして消える */
+#loader.hide {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/* テキスト or ロゴ */
+.loader-content {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  color: #333;
+  letter-spacing: 0.1em;
+  animation: fadeInOut 2s infinite ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
